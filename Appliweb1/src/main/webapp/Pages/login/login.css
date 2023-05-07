@@ -1,0 +1,234 @@
+@import url('https://fonts.googleapis.com/css?family=Popins:400,700');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Popins', sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: url('../../images/background-index2.jpg') no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 99;
+}
+
+.logo {
+  font-size: 2em;
+  color: #fff;
+  user-select: none;
+}
+
+.nav a {
+  position: relative;
+  font-size: 1.1em;
+  color:#fff;
+  text-decoration: none;
+  font-weight: 500;
+  margin-left: 40px;
+}
+
+.nav a::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: #fff;
+  border-radius: 5px;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: .4s;
+}
+
+.nav a:hover::after {
+  transform-origin: left ;
+  transform: scaleX(1);
+}
+
+.nav .btnLogin-popup {
+  width: 130px;
+  height: 50px;
+  background: transparent;
+  border: 2px solid #fff;
+  outline: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.1em;
+  color: #fff;
+  font-weight: 500;
+  margin-left: 40px;
+  transition: .5s;
+}
+
+.nav .btnLogin-popup:hover {
+  background: #fff0f0;
+  color: #000;
+}
+
+.wrapper {
+  position: relative;
+  width: 400px;
+  height: 330px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  transform: scale(0);
+  transition: transform .3s ease, height .3s ease, opacity .3s ease;
+}
+
+.wrapper.active {
+  height: 420px;
+  opacity: 1;
+  transform: scale(1);
+}
+
+.wrapper.active-popup {
+  transform: scale(1);
+}
+
+.wrapper .form-box {
+  width: 100%;
+  padding: 40px;
+}
+
+.wrapper .form-box.login {
+  transition: transform .2s ease;
+  transform: translateX(0);
+}
+
+.wrapper.active .form-box.login {
+  transition: none;
+  transform: translateX(-400px);
+}
+
+.wrapper .form-box.register {
+  position: absolute;
+  transition : none;
+  transform: translateX(400px);
+}
+
+.wrapper.active .form-box.register {
+  transition: transform .2s ease;
+  transform: translateX(0);
+}
+
+.form-box h2 {
+  font-size: 2em;
+  font-weight: 600;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.input-box {
+  position: relative;
+  width: 100%;
+  height: 30px;
+  border-bottom: 1px solid #000000;
+  margin: 20px 0;
+}
+
+.input-box label {
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  transform: translateY(-50%);
+  font-size: 1em;
+  color: #000;
+  font-weight: 500;
+  pointer-events: none;
+  transition: .5s;
+}
+
+.input-box input:focus~label,
+.input-box input:valid~label {
+  top: -5px;
+  left: 0;
+  font-size: 0.9em;
+  color: #ffffff;
+}
+
+.input-box input {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 0.9em;
+  color: #000000;
+  font-weight: 600;
+  padding: 0 35px 0 5px;
+}
+
+.input-box .icon {
+  position: absolute;
+  right: 8px;
+  font-size: 1em;
+  color: #070124;
+  line-height: 30px;
+}
+
+.btnLogin {
+  width: 100%;
+  height: 40px;
+  background: #06001a;
+  border: none;
+  outline: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.1em;
+  color: #ffffff;
+  font-weight: 500;
+  margin-top: 3px;
+  transition: .5s;
+}
+
+.login-register {
+  font-size: .9em;
+  color: #ffffff;
+  text-align: center;
+  font-weight: 300;
+  margin: 20px 0;
+}
+.login-register p a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.login-register p a:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+.agree-condition {
+  font-size: .9em;
+  color: #ffffff;
+  font-weight: 500;
+  display: flex;
+  margin: 15px 0;
+}
