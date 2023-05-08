@@ -26,31 +26,31 @@ const songs = [
     },
     {
         id:'2',
-        songName:`Entrance 2 <br><div class="subtitle"> Trap</div>`,
+        songName:`Pluie hivernale<br><div class="subtitle"> Old school</div>`,
         poster: '../../images/image2.jpg',
         isFavorite: false,
     },
     {
         id:'3',
-        songName:`Salut <br><div class="subtitle"> Pop</div>`,
+        songName:`Lavande <br><div class="subtitle"> Trap</div>`,
         poster: '../../images/image3.jpg',
         isFavorite: false,
     },
     {
         id:'4',
-        songName:`Yo <br><div class="subtitle"> Drill</div>`,
+        songName:`Lmpl <br><div class="subtitle"> Pop</div>`,
         poster: '../../images/image4.jpg',
         isFavorite: false,
     },
     {
         id:'5',
-        songName:`Entrance <br><div class="subtitle"> Pop</div>`,
+        songName:`Sunlight <br><div class="subtitle"> Trap</div>`,
         poster: '../../images/image5.jpg',
         isFavorite: false,
     },
     {
         id:'6',
-        songName:`Entrance 2 <br><div class="subtitle"> Trap</div>`,
+        songName:`Terrain <br><div class="subtitle"> Trap</div>`,
         poster: '../../images/image6.jpg',
         isFavorite: false,
     },
@@ -387,6 +387,14 @@ back.addEventListener('click',()=>{
     }
     music.src = `../../Songs/${index}.mp3`;
     poster_master_play.src = `../../images/image${index}.jpg`;
+    if (songs[index].isFavorite) {
+        fav_icon.setAttribute('name','heart');
+        fav_icon.style.color = 'red';
+    } else {
+        fav_icon.setAttribute('name','heart-outline');
+        fav_icon.style.color = 'grey';
+    }
+    
     masterPlay.setAttribute('name', 'pause-circle');
     makeAllPlays();
     Array.from(document.getElementsByClassName('playlistPlay'))[`${index-1}`].setAttribute('name','pause-circle');
@@ -410,6 +418,14 @@ next.addEventListener('click',()=>{
     }
     music.src = `../../Songs/${index}.mp3`;
     poster_master_play.src = `../../images/image${index}.jpg`;
+
+    if (songs[index].isFavorite) {
+        fav_icon.setAttribute('name','heart');
+        fav_icon.style.color = 'red';
+    } else {
+        fav_icon.setAttribute('name','heart-outline');
+        fav_icon.style.color = 'grey';
+    }
 
     masterPlay.setAttribute('name', 'pause-circle');
     makeAllPlays();
