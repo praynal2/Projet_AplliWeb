@@ -14,6 +14,30 @@ document.addEventListener('click', e => {
     })
 })
 
+let new_release = document.querySelector('.release');
+let favorites = document.querySelector('.favorites');
+
+let new_playlist = document.querySelector('.new-playlist');
+let fav_playlist = document.querySelector('.fav-playlist');
+
+new_release.addEventListener('click', () => {
+    new_release.classList.add('active');
+    favorites.classList.remove('active');
+    new_playlist.classList.add('active');
+    fav_playlist.classList.remove('active');
+    new_playlist.style.display = 'block';
+    fav_playlist.style.display = 'none';
+
+});
+favorites.addEventListener('click', () => {
+    favorites.classList.add('active');
+    new_release.classList.remove('active');
+    fav_playlist.classList.add('active');
+    new_playlist.classList.remove('active');
+    fav_playlist.style.display = 'block';
+    new_playlist.style.display = 'none';
+});
+
 
 const music = new Audio('../../Songs/1.mp3');
 
@@ -197,15 +221,85 @@ const songs = [
         songName:`Yo <br><div class="subtitle"> Drill</div>`,
         poster: '../../images/image30.jpg',
         isFavorite: false,
+    },
+    {
+        id:'31',
+        songName:`Yoded <br><div class="subtitle"> Drill</div>`,
+        poster: '../../images/image31.jpg',
+        isFavorite: false,
+    },
+    {
+        id:'32',
+        songName:`Yofsfsf <br><div class="subtitle"> Drill</div>`,
+        poster: '../../images/image32.jpg',
+        isFavorite: false,
     }
-]
+];
 
+let fav_songs = [
+    3,6
+];
+
+for (let i = 0; i < songs.length; i++) {
+    songs[i].isFavorite = fav_songs.includes(i + 1);
+}
+
+let fav_length = fav_songs.length;
 let song_size = songs.length;
 
-Array.from(document.getElementsByClassName('songItem')).forEach((element,i)=>{
-    element.getElementsByTagName('img')[0].src = songs[i].poster;
-    element.getElementsByTagName('h5')[0].innerHTML = songs[i].songName;
-})
+// Pour la playlist "new"
+var newPlaylistItems = document.querySelectorAll('.new-playlist .songItem');
+Array.from(newPlaylistItems).forEach(function(element) {
+  var playlistPlayElement = element.querySelector('.playlistPlay');
+  var i = playlistPlayElement.id;
+  element.querySelector('img').src = songs[i - 1].poster;
+  element.querySelector('h5').innerHTML = songs[i - 1].songName;
+});
+
+// Pour la playlist "fav"
+var favPlaylist = document.getElementById('favPlaylist');
+// Parcourir la liste fav_songs et créer les éléments correspondants
+fav_songs.forEach(function(songId, index) {
+    var song = songs[songId - 1];
+  
+    // Créer l'élément li pour chaque chanson
+    var li = document.createElement('li');
+    li.classList.add('songItem');
+  
+    // Créer les éléments à l'intérieur du li
+    var span = document.createElement('span');
+    span.textContent = (index + 1).toString().padStart(2, '0'); // Numéro de chanson dans l'ordre
+  
+    var img = document.createElement('img');
+    img.src = song.poster;
+    img.alt = song.songName;
+  
+    var h5 = document.createElement('h5');
+    h5.innerHTML = song.songName;
+  
+    var ionIcon = document.createElement('ion-icon');
+    ionIcon.classList.add('bi', 'playlistPlay', 'play');
+    ionIcon.setAttribute('name', 'play-circle');
+    ionIcon.id = songId;
+  
+    // Ajouter les éléments à l'élément li
+    li.appendChild(span);
+    li.appendChild(img);
+    li.appendChild(h5);
+    li.appendChild(ionIcon);
+  
+    // Ajouter l'élément li à la playlist "fav"
+    favPlaylist.appendChild(li);
+  });
+
+// Pour la mosaique
+var favPlaylistItems = document.querySelectorAll('.mosaique .songItem');
+Array.from(favPlaylistItems).forEach(function(element) {
+  var playlistPlayElement = element.querySelector('.playlistPlay');
+  var i = playlistPlayElement.id;
+  element.querySelector('img').src = songs[i - 1].poster;
+  element.querySelector('h5').innerHTML = songs[i - 1].songName;
+});
 
 let masterPlay = document.getElementById('masterPlay');
 
@@ -218,22 +312,30 @@ masterPlay.addEventListener('click',()=>{
                 element.setAttribute('name','pause-circle')
             }
         })
-    } else{
+    } else {
         music.pause();
         masterPlay.setAttribute('name', 'play-circle');
-        makeAllPlays();
+        Array.from(document.getElementsByClassName('playlistPlay')).forEach((element)=>{
+            if (element.getAttribute('id') == index) {
+                element.setAttribute('name','play-circle')
+            }
+        })
     }
 })
 
 const makeAllPlays = () =>{
     Array.from(document.getElementsByClassName('playlistPlay')).forEach((element)=>{
-        element.setAttribute('name','play-circle')
+        if (element.getAttribute('id') != index) {       
+            element.setAttribute('name','play-circle')
+        }
     })
 }
 
 const makeAllBackgrounds = () =>{
     Array.from(document.getElementsByClassName('songItem')).forEach((element)=>{
-        element.style.background = '#0c0c29';
+        if (element.getAttribute('id') != index) {       
+            element.style.background = '#0c0c29';
+        }
     })
 }
 
@@ -242,53 +344,71 @@ let poster_master_play = document.getElementById('poster_master_play');
 let title = document.getElementById('title');
 let fav_icon = document.getElementById('heart');
 
-Array.from(document.getElementsByClassName('playlistPlay')).forEach((element)=>{
-    element.addEventListener('click',(e)=>{
+document.addEventListener('click', function(event) {
+    if (event.target.classList.contains('playlistPlay')) {
+        var element = event.target;
         if (element.getAttribute('name') == 'play-circle') {
-            if (index != e.target.id) {
-                index = parseInt(e.target.id);
-                if (songs[index].isFavorite) {
-                    fav_icon.setAttribute('name','heart');
+            if (index != element.id) {
+                index = parseInt(element.id);
+                if (songs[index - 1].isFavorite) {
+                    fav_icon.setAttribute('name', 'heart');
                     fav_icon.style.color = 'red';
                 } else {
-                    fav_icon.setAttribute('name','heart-outline');
+                    fav_icon.setAttribute('name', 'heart-outline');
                     fav_icon.style.color = 'grey';
                 }
                 music.src = `../../Songs/${index}.mp3`;
                 poster_master_play.src = `../../images/image${index}.jpg`;
                 makeAllPlays();
-                element.setAttribute('name','pause-circle');
+                Array.from(document.getElementsByClassName('playlistPlay')).forEach((a) => {
+                    if (a.getAttribute('id') == index) {
+                        a.setAttribute('name', 'pause-circle');
+                    }
+                });
+                element.setAttribute('name', 'pause-circle');
                 music.play();
-                let song_title = songs.filter((ele)=>{
+                let song_title = songs.filter((ele) => {
                     return ele.id == index;
-                })
-
+                });
+        
                 song_title.forEach(ele => {
-                    let {songName} = ele;
+                    let { songName } = ele;
                     title.innerHTML = songName;
-                })
+                });
                 makeAllBackgrounds();
-                Array.from(document.getElementsByClassName('songItem'))[`${index-1}`].style.background = '#1e1e3f';
-            }
-            else {
+                Array.from(document.getElementsByClassName('songItem')).forEach((a) => {
+                    var playlistPlayElement = a.querySelector('.playlistPlay');
+                    console.log(index);
+                    var i = playlistPlayElement.getAttribute('id');
+                    if (i == index) {
+                        a.style.background = '#1e1e3f';
+                    }
+                });
+            } else {
                 music.play();
-                masterPlay.setAttribute('name', 'pause-circle');
-                element.setAttribute('name','pause-circle');
+                Array.from(document.getElementsByClassName('playlistPlay')).forEach((a) => {
+                if (a.getAttribute('id') == index) {
+                    a.setAttribute('name', 'pause-circle');
+                }
+                });
             }
-
             masterPlay.setAttribute('name', 'pause-circle');
-        } 
-        else {
-            element.setAttribute('name','play-circle');
+        } else {
+            Array.from(document.getElementsByClassName('playlistPlay')).forEach((a) => {
+                if (a.getAttribute('id') == index) {
+                    a.setAttribute('name', 'play-circle');
+                }
+            });
             music.pause();
             masterPlay.setAttribute('name', 'play-circle');
         }
-
-        music.addEventListener('ended',()=>{
+        
+        music.addEventListener('ended', () => {
             masterPlay.setAttribute('name', 'play-circle');
-        })
-    })
-})
+        });
+    }
+});
+  
 
 let currentStartTime = document.getElementById('currentStart');
 let currentEndTime = document.getElementById('currentEnd');
@@ -305,17 +425,17 @@ music.addEventListener('timeupdate', () => {
     currentStartTime.innerHTML = `${minutes}:${seconds}`;
   
     if (!isNaN(duration)) { // Check if duration is a valid number
-      let minutes_dur = Math.floor(duration / 60);
-      let seconds_dur = Math.floor(duration % 60);
-      seconds_dur = seconds_dur < 10 ? `0${seconds_dur}` : seconds_dur;
-      currentEndTime.innerHTML = `${minutes_dur}:${seconds_dur}`;
-  
-      let progress_time = parseInt((currentTime / duration) * 1000);
-      progress.style.width = `${progress_time / 10}%`;
-  
-      if (currentTime == duration) {
-        masterPlay.setAttribute('name', 'play-circle');
-      }
+        let minutes_dur = Math.floor(duration / 60);
+        let seconds_dur = Math.floor(duration % 60);
+        seconds_dur = seconds_dur < 10 ? `0${seconds_dur}` : seconds_dur;
+        currentEndTime.innerHTML = `${minutes_dur}:${seconds_dur}`;
+    
+        let progress_time = parseInt((currentTime / duration) * 1000);
+        progress.style.width = `${progress_time / 10}%`;
+    
+        if (currentTime == duration) {
+            masterPlay.setAttribute('name', 'play-circle');
+        }
     }
   });
 
@@ -387,14 +507,14 @@ back.addEventListener('click',()=>{
     }
     music.src = `../../Songs/${index}.mp3`;
     poster_master_play.src = `../../images/image${index}.jpg`;
-    if (songs[index].isFavorite) {
+    if (songs[index-1].isFavorite) {
         fav_icon.setAttribute('name','heart');
         fav_icon.style.color = 'red';
     } else {
         fav_icon.setAttribute('name','heart-outline');
         fav_icon.style.color = 'grey';
     }
-    
+
     masterPlay.setAttribute('name', 'pause-circle');
     makeAllPlays();
     Array.from(document.getElementsByClassName('playlistPlay'))[`${index-1}`].setAttribute('name','pause-circle');
@@ -419,7 +539,7 @@ next.addEventListener('click',()=>{
     music.src = `../../Songs/${index}.mp3`;
     poster_master_play.src = `../../images/image${index}.jpg`;
 
-    if (songs[index].isFavorite) {
+    if (songs[index-1].isFavorite) {
         fav_icon.setAttribute('name','heart');
         fav_icon.style.color = 'red';
     } else {
@@ -444,15 +564,74 @@ next.addEventListener('click',()=>{
     Array.from(document.getElementsByClassName('songItem'))[`${index-1}`].style.background = '#1e1e3f';
 })
 
-fav_icon.addEventListener('click',()=>{
+fav_icon.addEventListener('click', () => {
     if (fav_icon.getAttribute('name') == 'heart-outline') {
         fav_icon.setAttribute('name', 'heart');
         fav_icon.style.color = 'red';
-        songs[index].isFavorite = true;       
-    }
-    else {
+        songs[index - 1].isFavorite = true;
+        fav_songs.push(index);
+  
+        // Mettre à jour la liste des favoris
+        updateFavoritesList();
+        Array.from(document.getElementsByClassName('songItem')).forEach((a) => {
+            var playlistPlayElement = a.querySelector('.playlistPlay');
+            var i = playlistPlayElement.getAttribute('id');
+            if (i == index) {
+                a.style.background = '#1e1e3f';
+                playlistPlayElement.setAttribute('name', 'pause-circle');
+            }
+        });
+    } else {
         fav_icon.setAttribute('name', 'heart-outline');
         fav_icon.style.color = 'grey';
-        songs[index].isFavorite = false;
+        songs[index - 1].isFavorite = false;
+        fav_songs = fav_songs.filter(function(element) {
+            return element !== index;
+        });
+
+        // Mettre à jour la liste des favoris
+        updateFavoritesList();
     }
-})
+  });
+
+// Fonction pour mettre à jour la liste des favoris
+function updateFavoritesList() {
+    var favPlaylist = document.getElementById('favPlaylist');
+
+    // Supprimer le contenu existant de la playlist "fav"
+    favPlaylist.innerHTML = '';
+
+    // Parcourir les chansons et ajouter les favoris à la playlist "fav"
+    fav_songs.forEach(function(songId, index) {
+        var song = songs[songId - 1];
+
+        // Créer l'élément li pour chaque chanson
+        var li = document.createElement('li');
+        li.classList.add('songItem');
+
+        // Créer les éléments à l'intérieur du li
+        var span = document.createElement('span');
+        span.textContent = (index + 1).toString().padStart(2, '0'); // Numéro de chanson dans l'ordre
+
+        var img = document.createElement('img');
+        img.src = song.poster;
+        img.alt = song.songName;
+
+        var h5 = document.createElement('h5');
+        h5.innerHTML = song.songName;
+
+        var ionIcon = document.createElement('ion-icon');
+        ionIcon.classList.add('bi', 'playlistPlay', 'play');
+        ionIcon.setAttribute('name', 'play-circle');
+        ionIcon.id = songId;
+
+        // Ajouter les éléments à l'élément li
+        li.appendChild(span);
+        li.appendChild(img);
+        li.appendChild(h5);
+        li.appendChild(ionIcon);
+
+        // Ajouter l'élément li à la playlist "fav"
+        favPlaylist.appendChild(li);
+    });
+}
