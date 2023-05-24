@@ -3,6 +3,7 @@ package Pack;
 import java.io.IOException;
 import java.sql.*;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,6 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/Controleur")
 public class ControleurLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	
+	//@EJB
+	Facade_Itf facade = new Facade(); 
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -28,6 +33,7 @@ public class ControleurLogin extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		facade.addUser("test", "test"); 
 		response.sendRedirect("Pages/login/login.html");
 	}
 
