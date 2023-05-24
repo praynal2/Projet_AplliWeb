@@ -20,6 +20,8 @@ let favorites = document.querySelector('.favorites');
 let new_playlist = document.querySelector('.new-playlist');
 let fav_playlist = document.querySelector('.fav-playlist');
 
+current_playlist = new_playlist;
+
 new_release.addEventListener('click', () => {
     new_release.classList.add('active');
     favorites.classList.remove('active');
@@ -27,7 +29,6 @@ new_release.addEventListener('click', () => {
     fav_playlist.classList.remove('active');
     new_playlist.style.display = 'block';
     fav_playlist.style.display = 'none';
-
 });
 favorites.addEventListener('click', () => {
     favorites.classList.add('active');
@@ -37,6 +38,7 @@ favorites.addEventListener('click', () => {
     fav_playlist.style.display = 'block';
     new_playlist.style.display = 'none';
 });
+
 
 
 const music = new Audio('../../Songs/1.mp3');
@@ -346,6 +348,7 @@ let fav_icon = document.getElementById('heart');
 
 document.addEventListener('click', function(event) {
     if (event.target.classList.contains('playlistPlay')) {
+
         var element = event.target;
         if (element.getAttribute('name') == 'play-circle') {
             if (index != element.id) {
