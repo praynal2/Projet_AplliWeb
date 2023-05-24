@@ -10,7 +10,7 @@ public class Facade implements Facade_Itf {
 	@PersistenceContext 
 	private EntityManager em;
 
-	public Facade() {}
+	public Facade() {};
 
 	// Utilisé pour l'inscription d'un utilisateur
 	public void addUser(String login, String password) {
