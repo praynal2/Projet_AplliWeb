@@ -47,6 +47,7 @@ public class Facade implements Facade_Itf {
 	// Utilisé pour récupérer les musiques favorites d'un utilisateur
 	public List<Integer> getFavs(Integer idUser) {
 		List<Integer> list = em.createQuery("SELECT m.id FROM Music m JOIN m.fav f WHERE f.client.id = :idUser").getResultList();
+		return list;
 	}
 
 	// Utilisé pour ajouter des musiques favorites à un utilisateur
