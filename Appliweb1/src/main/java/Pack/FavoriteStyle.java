@@ -10,7 +10,7 @@ public class FavoriteStyle {
 
 	private Style style;
 
-	@ManyToOne(mappedBy="favorite_style")
+	@ManyToOne
 	private Client client;
 
 	public FavoriteStyle() {}

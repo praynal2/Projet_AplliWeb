@@ -1,5 +1,7 @@
 package Pack;
 
+import java.util.Collection;
+import java.util.List;
 import javax.persistence.*;
 
 @Entity
@@ -14,10 +16,10 @@ public class Music {
 	String image_url;
 
 	@OneToMany
-	private Favorite fav;
+	private Collection<Favorite> favs;
 
 	@OneToMany
-	private Purchase sale;
+	private Collection<Purchase> sales;
 
 	public Music() {}
 
@@ -29,20 +31,20 @@ public class Music {
 		this.id = id;
 	}
 
-	public Favorite getFav() {
-		return this.fav;
+	public Collection<Favorite> getFav() {
+		return this.favs;
 	}
 
-	public void setFav(Favorite fav) {
-		this.fav = fav;
+	public void setFav(List<Favorite> favs) {
+		this.favs = favs;
 	}
 
-	public Purchase getSale() {
-		return this.sale;
+	public Collection<Purchase> getSales() {
+		return this.sales;
 	}
 
-	public void setSale(Purchase sale) {
-		this.sale = sale;
+	public void setSales(List<Purchase> sales) {
+		this.sales = sales;
 	}
 
 	public String getName() {

@@ -2,6 +2,7 @@ package Pack;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -33,7 +34,7 @@ public class ControleurLogin extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		facade.addUser("test", "test"); 
+		
 		response.sendRedirect("Pages/login/login.html");
 	}
 
@@ -41,6 +42,9 @@ public class ControleurLogin extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
+		facade.addUser("test", "test"); 
+		doGet(request, response);
+		
 		// Traitement des opérations
 		try {
 
@@ -74,7 +78,7 @@ public class ControleurLogin extends HttpServlet {
 				// attributes : isUser = true, favourites = liste des musiques favorites
 				if (isUser) {
 					request.setAttribute("isUser", true); 
-					List<Favourite> favs = facade.getFavs(login);
+					List<Favorite> favs = facade.getFavs(login);
 					request.setAttribute("favorites", favs);
 				} 
 				// Cas où l'utilisateur n'existe pas encore

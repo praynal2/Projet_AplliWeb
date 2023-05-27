@@ -9,7 +9,6 @@
         <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
         
         <class>Pack.Client</class>
-        <class>Pack.Music</class>
         
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
