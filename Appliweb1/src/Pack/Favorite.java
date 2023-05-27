@@ -8,11 +8,14 @@ public class Favorite {
 	@GeneratedValue
 	private int id;
 
-	@ManyToOne(mappedBy="favorite")
+	@ManyToOne(mappedBy="favorites")
 	private Client client;
 
 	@ManyToOne(mappedBy="fav")
 	private Music music;
+
+	@OneToOne
+	private FavoriteStyle favorite_style;
 
 	public Favorite() {}
 
@@ -39,4 +42,13 @@ public class Favorite {
 	public void setMusic(Music music) {
 		this.music = music;
 	}
+
+	public FavoriteStyle getFavoriteStyle() {
+		return this.favorite_style;
+	}
+
+	public void setFavoriteStyle(FavoriteStyle favorite_style) {
+		this.favorite_style = favorite_style;
+	}
+
 }

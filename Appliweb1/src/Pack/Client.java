@@ -10,10 +10,7 @@ public class Client {
 	private String password;
 
 	@OneToMany
-	private Favorite favorite;
-
-	@OneToMany
-	private FavoriteStyle favorite_style;
+	private List<Favorite> favorites;
 
 	@OneToMany
 	private Purchase purchase;
@@ -36,20 +33,12 @@ public class Client {
 		this.password = password;
 	}
 
-	public Favorite getFavorite() {
-		return this.favorite;
+	public List<Favorite> getFavorites() {
+		return this.favorites;
 	}
 
-	public void setFavorite(Favorite favorite) {
-		this.favorite = favorite;
-	}
-
-	public FavoriteStyle getFavoriteStyle() {
-		return this.favorite_style;
-	}
-
-	public void setFavoriteStyle(FavoriteStyle favorite_style) {
-		this.favorite_style = favorite_style;
+	public void setFavorites(List<Favorite> favorites) {
+		this.favorites = favorites;
 	}
 
 	public Purchase getPurchase() {
