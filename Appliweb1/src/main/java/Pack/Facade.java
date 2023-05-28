@@ -51,14 +51,10 @@ public class Facade implements Facade_Itf {
 	}
 
 	// Utilisé pour récupérer les musiques favorites d'un utilisateur
-	public List<Integer> getFavs(String login) {
+	public List<Favorite> getFavs(String login) {
 		Client user = em.find(Client.class, login);
 		List<Favorite> list = user.getFavorites();
-		List<Integer> idList = new ArrayList<Integer>();
-		for (Favorite fav : list) {
-			idList.add(fav.getMusic().getId());
-		}
-		return idList;
+		return list;
 	}
 
 	// Utilisé pour ajouter une musique favorite à un utilisateur

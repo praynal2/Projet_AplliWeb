@@ -35,10 +35,16 @@ public class ControleurFavoris extends HttpServlet {
 		String user = request.getParameter("user");
 
         // On récupère les favoris de l'utilisateur
-        List<Integer> favs = facade.getFavs(user);
+        List<Favorite> favs = facade.getFavs(user);
+
+        // On récupère les musiques associées
+        List<Music> musics = new ArrayList<Music>();
+        for (Favorite fav : favs) {
+            musics.add(fav.getMusic());
+        }
         
         // On envoie les musiques
-        request.setAttribute("favoris", favs);
+        request.setAttribute("favoris", musics);
 	}
 
 	/**
