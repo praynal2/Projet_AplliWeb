@@ -18,8 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 public class ControleurLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	
-	//@EJB
+	@EJB
 	Facade_Itf facade = new Facade(); 
        
     /**
@@ -34,7 +33,9 @@ public class ControleurLogin extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+//		facade.addUser("test", "test"); 
+//		Client c = facade.getClient("test");
+//		response.getWriter().println("<html><body>" + c.getPassword() + "</body></html>");
 		response.sendRedirect("Pages/login/login.html");
 	}
 
@@ -42,8 +43,8 @@ public class ControleurLogin extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
-		// facade.addUser("test", "test"); 
-		// doGet(request, response);
+		
+		doGet(request, response);
 		
 		// Traitement des opérations
 		try {
@@ -89,7 +90,8 @@ public class ControleurLogin extends HttpServlet {
 					request.setAttribute("favorites", null);
 				}
 
-				response.sendRedirect("Pages/login/login.html");
+				// On passe dans la page d'accueil
+				response.sendRedirect("ControleurFavoris");
 			}
 
 			

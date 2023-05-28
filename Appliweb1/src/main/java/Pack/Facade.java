@@ -11,9 +11,11 @@ import java.security.MessageDigest;
 @Singleton
 public class Facade implements Facade_Itf {
 
-	@PersistenceContext 
+	@PersistenceContext(unitName = "MaPU")
 	private EntityManager em;
-
+	
+	public Facade(){}
+	
 	// Utilisé pour l'inscription d'un utilisateur
 	public void addUser(String login, String password) {
 		Client user = new Client();
