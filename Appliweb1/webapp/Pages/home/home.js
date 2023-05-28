@@ -414,6 +414,7 @@ document.addEventListener('click', function(event) {
                 });
                 element.setAttribute('name', 'pause-circle');
                 music.play();
+                music.volume = 0.5;
                 let song_title = songs.filter((ele) => {
                     return ele.id == index;
                 });
