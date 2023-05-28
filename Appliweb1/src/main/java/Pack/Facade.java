@@ -51,36 +51,54 @@ public class Facade implements Facade_Itf {
 	}
 
 	// Utilisé pour récupérer les musiques favorites d'un utilisateur
-	public List<Favorite> getFavs(String login) {
+	public List<Integer> getFavs(String login) {
 		Client user = em.find(Client.class, login);
 		List<Favorite> list = user.getFavorites();
-		return list;
+		List<Integer> idList = new ArrayList<Integer>();
+		for (Favorite fav : list) {
+			idList.add(fav.getMusic().getId());
+		}
+		return idList;
 	}
 
-	// Utilisé pour ajouter des musiques favorites à un utilisateur
-	public void addFavs(String login, List<Integer> idMusic) {
+	// Utilisé pour ajouter une musique favorite à un utilisateur
+	public void addFav(String login, int idMusic) {
 		Client user = em.find(Client.class, login);
 		List<Favorite> list = user.getFavorites();
-		for (Integer id : idMusic) {
-			Music music = em.find(Music.class, id);
+		Music music = em.find(Music.class, idMusic);
+		Favorite fav = new Favorite();
+		fav.setClient(user);
+		fav.setMusic(music);
+		list.add(fav);
+		em.persist(fav);
+		// for (Integer id : idMusic) {
+		// 	Music music = em.find(Music.class, id);
+		// 	Favorite fav = new Favorite();
+		// 	fav.setClient(user);
+		// 	fav.setMusic(music);
+		// 	list.add(fav);
+		// 	em.persist(fav);
+		// }
+	}
+
+	// Utilisé pour supprimer une musique favorite à un utilisateur
+	public void delFav(String login, int idMusic) {
+		Client user = em.find(Client.class, login);
+		List<Favorite> list = user.getFavorites();
+		Music music = em.find(Music.class, idMusic);
+		if (list.contains(music)) {
 			Favorite fav = new Favorite();
 			fav.setClient(user);
 			fav.setMusic(music);
-			list.add(fav);
-			em.persist(fav);
+			list.remove(fav);
+			em.remove(fav);
 		}
-	}
-
-	// Utilisé pour supprimer des musiques favorites à un utilisateur
-	public void delFavs(String login, List<Integer> idMusic) {
-		Client user = em.find(Client.class, login);
-		List<Favorite> list = user.getFavorites();
-		for (Favorite fav : list) {
-			int id = fav.getMusic().getId();
-			if (idMusic.contains(id)) {
-				em.remove(fav);
-				list.remove(fav);
-			}
-		}
+		// for (Favorite fav : list) {
+		// 	int id = fav.getMusic().getId();
+		// 	if (idMusic.contains(id)) {
+		// 		em.remove(fav);
+		// 		list.remove(fav);
+		// 	}
+		// }
 	}
 }

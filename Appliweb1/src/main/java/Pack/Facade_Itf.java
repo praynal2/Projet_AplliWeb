@@ -8,7 +8,7 @@ public interface Facade_Itf {
 	boolean isUser(String login, String password);
 	Client getClient(String login);
 	List<List<String>> getAllMusic(); // [id, name, genre, path]
-	List<Favorite> getFavs(String login);
-	void addFavs(String login, List<Integer> idMusic);
-	void delFavs(String login, List<Integer> idMusic);
+	List<Integer> getFavs(String login);
+	void addFav(String login, int idMusic);
+	void delFav(String login, int idMusic);
 }
