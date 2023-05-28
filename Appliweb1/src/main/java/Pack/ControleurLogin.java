@@ -83,8 +83,8 @@ public class ControleurLogin extends HttpServlet {
 				} 
 				// Cas où l'utilisateur n'existe pas encore
 				else {
-					request.setAttribute("isUser", false);
-					request.setAttribute("favourites", null);
+					request.setAttribute("isUser", false);		// Utilisateur inexistant
+					request.setAttribute("favourites", null);	// Liste de favoris vide
 				}
 
 				response.sendRedirect("Pages/login/login.html");
