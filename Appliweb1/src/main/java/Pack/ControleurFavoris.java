@@ -31,7 +31,7 @@ public class ControleurFavoris extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		response.getWriter().println("<html><body>Hello World !</body></html>");
+		response.sendRedirect("Pages/home/home.html");
         
         try {
             // Utilisateur connecté
@@ -52,6 +52,7 @@ public class ControleurFavoris extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 
         try {
             // Utilisateur connecté

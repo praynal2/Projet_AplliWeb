@@ -90,7 +90,8 @@ public class ControleurLogin extends HttpServlet {
 					request.setAttribute("favorites", null);
 				}
 
-				response.sendRedirect("Pages/home/home.html");
+				// On passe dans la page d'accueil
+				response.sendRedirect("ControleurFavoris");
 			}
 
 			
