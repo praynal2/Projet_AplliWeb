@@ -238,18 +238,29 @@ const songs = [
     }
 ];
 
+let song_size = songs.length;
+
+// créer la liste des id de la playlist fav
 let fav_songs = [
     3,6
 ];
 
-for (let i = 0; i < songs.length; i++) {
+// créer la liste des id de la playlist new
+var new_songs = [];
+new_size = 15;
+for (var i = song_size; i >= song_size - new_size; i--) {
+    if (i > 0) {
+        new_songs.push(i);
+    }
+}
+
+for (let i = 0; i < song_size; i++) {
     songs[i].isFavorite = fav_songs.includes(i + 1);
 }
 
-let fav_length = fav_songs.length;
-let song_size = songs.length;
+let fav_size = fav_songs.length;
 
-// Pour la playlist "new"
+// Afficher la playlist "new"
 var newPlaylistItems = document.querySelectorAll('.new-playlist .songItem');
 Array.from(newPlaylistItems).forEach(function(element) {
   var playlistPlayElement = element.querySelector('.playlistPlay');
@@ -258,7 +269,7 @@ Array.from(newPlaylistItems).forEach(function(element) {
   element.querySelector('h5').innerHTML = songs[i - 1].songName;
 });
 
-// Pour la playlist "fav"
+// Afficher la playlist "fav"
 var favPlaylist = document.getElementById('favPlaylist');
 // Parcourir la liste fav_songs et créer les éléments correspondants
 fav_songs.forEach(function(songId, index) {
@@ -346,6 +357,8 @@ let poster_master_play = document.getElementById('poster_master_play');
 let title = document.getElementById('title');
 let fav_icon = document.getElementById('heart');
 
+playlist_playing = 'new';
+
 document.addEventListener('click', function(event) {
     if (event.target.classList.contains('playlistPlay')) {
 
@@ -387,6 +400,25 @@ document.addEventListener('click', function(event) {
                         a.style.background = '#1e1e3f';
                     }
                 });
+                
+                // checker sur quelle playlist on joue
+                var playlistElement = event.target.closest('ul');
+                if (playlistElement) {
+                    if (playlistElement.classList.contains('fav-playlist')) {
+                        console.log('The element has the class fav-playlist');
+                        playlist_playing = 'fav';
+                      }
+                      
+                      if (playlistElement.classList.contains('new-playlist')) {
+                        console.log('The element has the class new-playlist');
+                        playlist_playing = 'new';
+                      }
+                      
+                      if (playlistElement.classList.contains('all-playlist')) {
+                        console.log('The element has the class all-playlist');
+                        playlist_playing = 'all';
+                      }
+                }
             } else {
                 music.play();
                 Array.from(document.getElementsByClassName('playlistPlay')).forEach((a) => {
@@ -411,6 +443,8 @@ document.addEventListener('click', function(event) {
         });
     }
 });
+
+
   
 
 let currentStartTime = document.getElementById('currentStart');
@@ -504,9 +538,24 @@ let back = document.getElementById('back');
 let next = document.getElementById('next');
 
 back.addEventListener('click',()=>{
-    index = index - 1;
+    var playlist_size;
+    switch (playlist_playing) {
+        case 'all':
+            playlist_size = song_size;
+            index = index - 1;
+            break;
+        case 'fav':
+            playlist_size = fav_size;
+            index = fav_songs[fav_songs.indexOf(index) - 1];
+            break;
+        case 'new':
+            playlist_size = new_size;
+            index = new_songs[new_songs.indexOf(index) - 1];
+            break;
+    }
+
     if (index < 1) {
-        index = song_size;
+        index = playlist_size;
     }
     music.src = `../../Songs/${index}.mp3`;
     poster_master_play.src = `../../images/image${index}.jpg`;
@@ -535,9 +584,29 @@ back.addEventListener('click',()=>{
 })
 
 next.addEventListener('click',()=>{
-    index = index + 1;
-    if (index > song_size) {
-        index = 1;
+    var playlist;
+    var playlist_size;
+    switch (playlist_playing) {
+        case 'all':
+            playlist_size = song_size;
+            index = index + 1;
+            playlist = songs;
+            break;
+        case 'fav':
+            playlist_size = fav_size;
+            index = fav_songs[fav_songs.indexOf(index) + 1];
+            playlist = fav_songs;
+            break;
+        case 'new':
+            playlist_size = new_size;
+            index = new_songs[new_songs.indexOf(index) + 1];
+            playlist = new_songs;
+            break;
+    }
+    
+    console.log(index);
+    if (playlist.indexOf(index) > playlist_size-1 || index == undefined) {
+        index = playlist[0];
     }
     music.src = `../../Songs/${index}.mp3`;
     poster_master_play.src = `../../images/image${index}.jpg`;
