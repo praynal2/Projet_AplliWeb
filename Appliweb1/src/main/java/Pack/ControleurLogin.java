@@ -42,8 +42,8 @@ public class ControleurLogin extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
-		facade.addUser("test", "test"); 
-		doGet(request, response);
+		// facade.addUser("test", "test"); 
+		// doGet(request, response);
 		
 		// Traitement des opérations
 		try {
