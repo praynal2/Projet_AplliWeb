@@ -2,7 +2,9 @@ package Pack;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.List;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,6 +17,10 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/Controleur")
 public class ControleurLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	
+	//@EJB
+	Facade_Itf facade = new Facade(); 
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -28,31 +34,68 @@ public class ControleurLogin extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		response.sendRedirect("Pages/login/login.html");
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// Connexion à la BDD
-		String db_url = "jdbc:hsqldb:hsql://localhost/xdb";		//Quelle BD ? 
-		String db_user = "sa";
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
+		// facade.addUser("test", "test"); 
+		// doGet(request, response);
+		
+		// Traitement des opérations
 		try {
-			Class.forName("org.hsqldb.jdbcDriver");
-			Connection con = DriverManager.getConnection(db_url, db_user, null);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		
-		// TRaitement des opérations
-		String op =  request.getParameter("op");
-		
-		if (op.equals("register")) {
+
+			String op = request.getParameter("op");
+
+			// REGISTER 
+			if (op.equals("Register")) {
+				String login = request.getParameter("login");
+				String password = request.getParameter("password");
+				boolean isUser = facade.isUser(login, password);
+
+				// Cas où l'utilisateur existe déjà 
+				if (isUser) {
+					request.setAttribute("isUser", true);
+					request.setAttribute("user", login);
+				} 
+				// Cas où l'utilisateur n'existe pas encore
+				else {
+					request.setAttribute("isUser", false);
+					facade.addUser(login, password);
+				}
+
+				response.sendRedirect("Pages/login/login.html");
+			}
+			// LOGIN
+			else if (op.equals("Login")) {
+				String login = request.getParameter("login");
+				String password = request.getParameter("password");
+				boolean isUser = facade.isUser(login, password);
+
+				// Cas où l'utilisateur existe déjà 
+				// attributes : isUser = true, favorites = liste des musiques favorites
+				if (isUser) {
+					request.setAttribute("isUser", true); 
+					request.setAttribute("user", login);
+					List<Favorite> favs = facade.getFavs(login);
+					request.setAttribute("favorites", favs);
+				} 
+				// Cas où l'utilisateur n'existe pas encore
+				else {
+					request.setAttribute("isUser", false);
+					request.setAttribute("favorites", null);
+				}
+
+				response.sendRedirect("Pages/login/login.html");
+			}
+
 			
+
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

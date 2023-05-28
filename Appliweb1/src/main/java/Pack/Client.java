@@ -1,5 +1,8 @@
 package Pack;
 
+import java.util.Collection;
+import java.util.List;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,13 +13,10 @@ public class Client {
 	private String password;
 
 	@OneToMany
-	private Favorite favorite;
+	private Collection<Favorite> favorites;
 
 	@OneToMany
-	private FavoriteStyle favorite_style;
-
-	@OneToMany
-	private Purchase purchase;
+	private Collection<Purchase> purchases;
 
 	public Client() {}
 	
@@ -36,27 +36,19 @@ public class Client {
 		this.password = password;
 	}
 
-	public Favorite getFavorite() {
-		return this.favorite;
+	public List<Favorite> getFavorites() {
+		return (List<Favorite>) this.favorites;
 	}
 
-	public void setFavorite(Favorite favorite) {
-		this.favorite = favorite;
+	public void setFavorites(List<Favorite> favorites) {
+		this.favorites = favorites;
 	}
 
-	public FavoriteStyle getFavoriteStyle() {
-		return this.favorite_style;
+	public Collection<Purchase> getPurchases() {
+		return this.purchases;
 	}
 
-	public void setFavoriteStyle(FavoriteStyle favorite_style) {
-		this.favorite_style = favorite_style;
-	}
-
-	public Purchase getPurchase() {
-		return this.purchase;
-	}
-
-	public void setPurchase(Purchase purchase) {
-		this.purchase = purchase;
+	public void setPurchase(Collection<Purchase> purchase) {
+		this.purchases = purchase;
 	}
 }

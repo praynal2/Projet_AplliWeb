@@ -1,18 +1,28 @@
 package Pack;
 
+import java.io.Serializable;
+
 import javax.persistence.*;
 
 @Entity
-public class Favorite {
+public class Favorite implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue
 	private int id;
 
-	@ManyToOne(mappedBy="favorite")
+	@ManyToOne
 	private Client client;
 
-	@ManyToOne(mappedBy="fav")
+	@ManyToOne
 	private Music music;
+
+	@OneToOne
+	private FavoriteStyle favorite_style;
 
 	public Favorite() {}
 
@@ -39,4 +49,13 @@ public class Favorite {
 	public void setMusic(Music music) {
 		this.music = music;
 	}
+
+	public FavoriteStyle getFavoriteStyle() {
+		return this.favorite_style;
+	}
+
+	public void setFavoriteStyle(FavoriteStyle favorite_style) {
+		this.favorite_style = favorite_style;
+	}
+
 }

@@ -6,8 +6,9 @@ import java.util.List;
 public interface Facade_Itf {
 	void addUser(String login, String password);
 	boolean isUser(String login, String password);
+	Client getClient(String login);
 	List<List<String>> getAllMusic(); // [id, name, genre, path]
-	List<Integer> getFavs(Integer idUser);
-	void addFavs(Integer idUser, List<Integer> idMusic);
-	void delFavs(Integer idUser, List<Integer> idMusic);
+	List<Favorite> getFavs(String login);
+	void addFav(String login, int idMusic);
+	void delFav(String login, int idMusic);
 }

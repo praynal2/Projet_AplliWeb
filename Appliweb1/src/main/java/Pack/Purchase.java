@@ -8,10 +8,10 @@ public class Purchase {
 	@GeneratedValue
 	int id;
 
-	@ManyToOne(mappedBy="purchase")
+	@ManyToOne
 	private Client client;
 
-	@ManyToOne(mappedBy="sale")
+	@ManyToOne
 	private Music music;
 
 	public Purchase() {}
