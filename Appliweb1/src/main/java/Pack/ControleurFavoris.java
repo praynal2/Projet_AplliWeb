@@ -32,20 +32,6 @@ public class ControleurFavoris extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		response.sendRedirect("Pages/home/home.html");
-        
-        try {
-            // Utilisateur connecté
-            String user = request.getParameter("user");
-
-            // On récupère les favoris de l'utilisateur
-            List<Favorite> favs = facade.getFavs(user);
-            
-            // On envoie les favoris
-            request.setAttribute("favoris", favs);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 	}
 
 	/**

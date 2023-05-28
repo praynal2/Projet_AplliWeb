@@ -23,18 +23,18 @@
       
       <div class="form-box login">
         <h2>Login</h2>
-        <form>
+        <form action = "/Appliweb/Controleur" method ="post">
           <div class="input-box">
             <span class="icon"><ion-icon name="person"></ion-icon></span>
             <input type="text" name="login" required>
-            <label>Test</label>
+            <label>Username</label>
           </div>
           <div class="input-box">
             <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
             <input type="password" name="password" required>
             <label>Password</label>
           </div>
-          <button type="submit" class="btnLogin">Login</button>
+          <button type="submit" name = "op" value = "Login" class="btnLogin">Login</button>
           <div class="login-register">
             <p> Don't have an account? <a href="#" class = "register-link">Register</a></p>
           </div>

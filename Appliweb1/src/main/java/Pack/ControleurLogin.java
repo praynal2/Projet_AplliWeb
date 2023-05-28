@@ -44,8 +44,6 @@ public class ControleurLogin extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
 		
-		doGet(request, response);
-		
 		// Traitement des opérations
 		try {
 
@@ -83,6 +81,8 @@ public class ControleurLogin extends HttpServlet {
 					request.setAttribute("user", login);
 					List<Favorite> favs = facade.getFavs(login);
 					request.setAttribute("favorites", favs);
+					// On passe dans la page d'accueil
+					response.sendRedirect("ControleurFavoris");
 				} 
 				// Cas où l'utilisateur n'existe pas encore
 				else {
@@ -90,8 +90,7 @@ public class ControleurLogin extends HttpServlet {
 					request.setAttribute("favorites", null);
 				}
 
-				// On passe dans la page d'accueil
-				response.sendRedirect("ControleurFavoris");
+				
 			}
 
 			
