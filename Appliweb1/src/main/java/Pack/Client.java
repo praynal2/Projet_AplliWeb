@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Entity
 public class Client {
 	
-	@Id
+	@Id	
 	private String login;
 	private String password;
 
@@ -18,7 +18,13 @@ public class Client {
 	@OneToMany
 	private Collection<Purchase> purchases;
 
-	public Client() {}
+	public Client() {
+	}
+	
+	public Client(String login, String password) {
+		this.login = login; 
+		this.password = password; 
+	}
 	
 	public String getLogin() {
 		return login;

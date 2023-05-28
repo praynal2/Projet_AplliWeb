@@ -30,6 +30,8 @@ public class ControleurFavoris extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		response.getWriter().println("<html><body>Hello World !</body></html>");
         
         try {
             // Utilisateur connecté
@@ -60,10 +62,10 @@ public class ControleurFavoris extends HttpServlet {
 
             if (op == "add") {
                 // On ajoute un favori
-                facade.addFav(user, request.getParameter("idFav"));
+                facade.addFav(user, Integer.parseInt(request.getParameter("idFav")));
             } else if (op == "remove") {
                 // On supprime un favori
-                facade.delFav(user, request.getParameter("idFav"));
+                facade.delFav(user, Integer.parseInt(request.getParameter("idFav")));
             }
 
         } catch (Exception e) {

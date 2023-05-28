@@ -9,14 +9,14 @@ import javax.persistence.*;
 @Singleton
 public class Facade implements Facade_Itf {
 
-	@PersistenceContext 
+	@PersistenceContext(unitName = "MaPU")
 	private EntityManager em;
-
+	
+	public Facade(){}
+	
 	// Utilisé pour l'inscription d'un utilisateur
 	public void addUser(String login, String password) {
-		Client user = new Client();
-		user.setLogin(login);
-		user.setPassword(password);
+		Client user = new Client(login, password);
 		em.persist(user);
 	}
 
