@@ -6,6 +6,8 @@ import java.util.List;
 import javax.ejb.Singleton;
 import javax.persistence.*;
 
+import java.security.MessageDigest;
+
 @Singleton
 public class Facade implements Facade_Itf {
 
@@ -16,7 +18,23 @@ public class Facade implements Facade_Itf {
 	public void addUser(String login, String password) {
 		Client user = new Client();
 		user.setLogin(login);
-		user.setPassword(password);
+
+		// On crypte le mot de passe
+		String encrypted_password = null;
+		try {
+			MessageDigest md = MessageDigest.getInstance("SHA-256");
+			md.update(password.getBytes());
+			byte[] bytes = md.digest();
+			StringBuilder sb = new StringBuilder();
+			for (int i=0; i< bytes.length ;i++) {
+				sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+			}
+			encrypted_password = sb.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		user.setPassword(encrypted_password);
 		em.persist(user);
 	}
 
@@ -26,7 +44,22 @@ public class Facade implements Facade_Itf {
 		if (user == null) {
 			return false;
 		}
-		return user.getPassword().equals(password);
+		// On regarde si le mot de passe est le bon, en cryptant le mot de passe entré
+		String encrypted_password = null;
+		try {
+			MessageDigest md = MessageDigest.getInstance("SHA-256");
+			md.update(password.getBytes());
+			byte[] bytes = md.digest();
+			StringBuilder sb = new StringBuilder();
+			for (int i=0; i< bytes.length ;i++) {
+				sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+			}
+			encrypted_password = sb.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return user.getPassword().equals(encrypted_password);
 	}
 
 	// Utilisé pour récupérer un utilisateur
