@@ -58,7 +58,8 @@ public class ControleurLogin extends HttpServlet {
 
 				// Cas où l'utilisateur existe déjà 
 				if (isUser) {
-					request.setAttribute("isUser", true); 
+					request.setAttribute("isUser", true);
+					request.setAttribute("user", login);
 				} 
 				// Cas où l'utilisateur n'existe pas encore
 				else {
@@ -75,16 +76,17 @@ public class ControleurLogin extends HttpServlet {
 				boolean isUser = facade.isUser(login, password);
 
 				// Cas où l'utilisateur existe déjà 
-				// attributes : isUser = true, favourites = liste des musiques favorites
+				// attributes : isUser = true, favorites = liste des musiques favorites
 				if (isUser) {
 					request.setAttribute("isUser", true); 
+					request.setAttribute("user", login);
 					List<Favorite> favs = facade.getFavs(login);
 					request.setAttribute("favorites", favs);
 				} 
 				// Cas où l'utilisateur n'existe pas encore
 				else {
 					request.setAttribute("isUser", false);
-					request.setAttribute("favourites", null);
+					request.setAttribute("favorites", null);
 				}
 
 				response.sendRedirect("Pages/login/login.html");

@@ -30,39 +30,44 @@ public class ControleurFavoris extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-            
-        // Utilisateur connecté
-		String user = request.getParameter("user");
-
-        // On récupère les favoris de l'utilisateur
-        List<Favorite> favs = facade.getFavs(user);
-
-        // On récupère les musiques associées
-        List<Music> musics = new ArrayList<Music>();
-        for (Favorite fav : favs) {
-            musics.add(fav.getMusic());
-        }
         
-        // On envoie les musiques
-        request.setAttribute("favoris", musics);
+        try {
+            // Utilisateur connecté
+            String user = request.getParameter("user");
+
+            // On récupère les favoris de l'utilisateur
+            List<Favorite> favs = facade.getFavs(user);
+            
+            // On envoie les favoris
+            request.setAttribute("favoris", favs);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
-		// Utilisateur connecté
-        String user = request.getParameter("user");
-        
-        // Opération à effectuer
-        String op = request.getParameter("op");
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        if (op == "add") {
-            // On ajoute un favori
-            facade.addFav(user, request.getParameter("idFav"));
-        } else if (op == "remove") {
-            // On supprime un favori
-            facade.delFav(user, request.getParameter("idFav"));
+        try {
+            // Utilisateur connecté
+            String user = request.getParameter("user");
+            
+            // Opération à effectuer
+            String op = request.getParameter("op");
+
+            if (op == "add") {
+                // On ajoute un favori
+                facade.addFav(user, request.getParameter("idFav"));
+            } else if (op == "remove") {
+                // On supprime un favori
+                facade.delFav(user, request.getParameter("idFav"));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 	}
 }
