@@ -54,13 +54,10 @@ public class Controleur extends HttpServlet {
 
             
             // On modifie les favoris du client lorqu'il quitte la page
-            if (op == "setClient") { 
+            if (op == "setfavourites") { 
                 // On récupère les favoris
                 List<Integer> musics = (List<Integer>) request.getAttribute("newfavs");
                 facade.setFavs(user, musics);
-                // On récupère les achats
-                List<Integer> purchases = (List<Integer>) request.getAttribute("newpurchases");
-                facade.setPurchases(user, purchases);
             } 
 
         } catch (Exception e) {

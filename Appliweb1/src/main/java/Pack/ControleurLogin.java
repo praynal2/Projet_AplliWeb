@@ -3,6 +3,7 @@ package Pack;
 import java.io.IOException;
 import java.sql.*;
 import java.util.List;
+import java.util.ArrayList;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -83,8 +84,17 @@ public class ControleurLogin extends HttpServlet {
 					// Ajout des informations de l'utilisateur dans la session
 					// Favoris et achats
 					List<Favorite> favs = facade.getFavs(login);
-					request.setAttribute("favorites", favs);
-					List<Purchase> purchases = facade.getPurchases(login);
+					List<Integer> favorites = new ArrayList<Integer>();
+					for (Favorite f : favs) {
+						favorites.add(f.getMusic().getId());
+					}
+					request.setAttribute("favorites", favorites);
+
+					List<Purchase> purchs = facade.getPurchases(login);
+					List<Integer> purchases = new ArrayList<Integer>();
+					for (Purchase p : purchs) {
+						purchases.add(p.getMusic().getId());
+					}
 					request.setAttribute("purchases", purchases);
 
 					// On passe dans la page d'accueil
