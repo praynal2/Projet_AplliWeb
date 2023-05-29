@@ -82,7 +82,7 @@ const songs = [
     },
     {
         id:'7',
-        songName:`TEST <br><div class="subtitle"> Pop</div>`,
+        songName:`Salut <br><div class="subtitle"> Pop</div>`,
         poster: '../../images/image7.jpg',
         isFavorite: false,
     },
@@ -240,16 +240,15 @@ const songs = [
 
 let song_size = songs.length;
 
-// créer la liste des id de la playlist fav
-
 // Récupérer la liste des favoris actuels 
-let fav_songs = [];
-let fav_songs_string = Request.getAttribute("favorites");
-if (fav_songs_string != null) {
-    for (var i = 0; i < fav_songs_string.length; i++) {
-        fav_songs.push(parseInt(fav_songs_string[i]));
-    }
+ let fav_songs = [];
+ let fav_songs_string = Request.getAttribute("favorites");
+ if (fav_songs_string != null) {
+     for (var i = 0; i < fav_songs_string.length; i++) {
+         fav_songs.push(parseInt(fav_songs_string[i]));
+     }
 }
+
 
 // créer la liste des id de la playlist new
 var new_songs = [];

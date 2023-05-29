@@ -29,7 +29,8 @@ public class ControleurLogin extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
-
+    
+    
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -39,6 +40,7 @@ public class ControleurLogin extends HttpServlet {
 //		response.getWriter().println("<html><body>" + c.getPassword() + "</body></html>");
 		response.sendRedirect("Pages/login/login.html");
 	}
+	
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
