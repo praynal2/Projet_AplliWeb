@@ -103,6 +103,10 @@ public class ControleurLogin extends HttpServlet {
 					}
 					request.setAttribute("purchases", purchases);
 
+					// Envoi de la liste des achats au front
+					RequestDispatcher dispatcher2 = request.getRequestDispatcher("../../webapp/Pages/login/login.html");
+					dispatcher2.forward(request, response);
+
 					// On passe dans la page d'accueil
 					response.sendRedirect("Controleur");
 				} 
