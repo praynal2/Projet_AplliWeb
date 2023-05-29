@@ -65,7 +65,7 @@ public class ControleurLogin extends HttpServlet {
 				else {
 					request.setAttribute("isUser", false);
 					facade.addUser(login, password);
-					response.sendRedirect("Controleur");
+					response.sendRedirect("ControleurLogin");
 				}
 
 				
