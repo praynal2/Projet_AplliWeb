@@ -12,10 +12,10 @@ public class Client {
 	private String login;
 	private String password;
 
-	@OneToMany
+	@OneToMany(fetch = FetchType.EAGER)
 	private Collection<Favorite> favorites;
 
-	@OneToMany
+	@OneToMany(fetch = FetchType.EAGER)
 	private Collection<Purchase> purchases;
 
 	public Client() {

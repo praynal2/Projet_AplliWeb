@@ -82,7 +82,7 @@ const songs = [
     },
     {
         id:'7',
-        songName:`Salut <br><div class="subtitle"> Pop</div>`,
+        songName:`TEST <br><div class="subtitle"> Pop</div>`,
         poster: '../../images/image7.jpg',
         isFavorite: false,
     },
@@ -238,28 +238,76 @@ const songs = [
     }
 ];
 
-let fav_songs = [
-    3,6
-];
-
-for (let i = 0; i < songs.length; i++) {
-    songs[i].isFavorite = fav_songs.includes(i + 1);
-}
-
-let fav_length = fav_songs.length;
 let song_size = songs.length;
 
-// Pour la playlist "new"
-var newPlaylistItems = document.querySelectorAll('.new-playlist .songItem');
-Array.from(newPlaylistItems).forEach(function(element) {
-  var playlistPlayElement = element.querySelector('.playlistPlay');
-  var i = playlistPlayElement.id;
-  element.querySelector('img').src = songs[i - 1].poster;
-  element.querySelector('h5').innerHTML = songs[i - 1].songName;
-});
+// créer la liste des id de la playlist fav
 
-// Pour la playlist "fav"
-var favPlaylist = document.getElementById('favPlaylist');
+// Récupérer la liste des favoris actuels 
+let fav_songs = [];
+let fav_songs_string = Request.getAttribute("favorites");
+if (fav_songs_string != null) {
+    for (var i = 0; i < fav_songs_string.length; i++) {
+        fav_songs.push(parseInt(fav_songs_string[i]));
+    }
+}
+
+// créer la liste des id de la playlist new
+var new_songs = [];
+new_size = 15;
+for (var i = song_size; i >= song_size - new_size; i--) {
+    if (i > 0) {
+        new_songs.push(i);
+    }
+}
+
+for (let i = 0; i < song_size; i++) {
+    songs[i].isFavorite = fav_songs.includes(i + 1);
+}
+console.log(new_songs);
+
+
+// Afficher la playlist "new"
+
+var newPlaylist = document.getElementById('newPlaylist');
+// Parcourir la liste fav_songs et créer les éléments correspondants
+new_songs.forEach(function(songId, index) {
+    var song = songs[songId - 1];
+  
+    // Créer l'élément li pour chaque chanson
+    var li = document.createElement('li');
+    li.classList.add('songItem');
+  
+    // Créer les éléments à l'intérieur du li
+    var span = document.createElement('span');
+    span.textContent = (index + 1).toString().padStart(2, '0'); // Numéro de chanson dans l'ordre
+  
+    var img = document.createElement('img');
+    img.src = song.poster;
+    img.alt = song.songName;
+  
+    var h5 = document.createElement('h5');
+    h5.innerHTML = song.songName;
+  
+    var ionIcon = document.createElement('ion-icon');
+    ionIcon.classList.add('bi', 'playlistPlay', 'play');
+    ionIcon.setAttribute('name', 'play-circle');
+    ionIcon.id = songId;
+  
+    // Ajouter les éléments à l'élément li
+    li.appendChild(span);
+    li.appendChild(img);
+    li.appendChild(h5);
+    li.appendChild(ionIcon);
+  
+    // Ajouter l'élément li à la playlist "fav"
+    newPlaylist.appendChild(li);
+  });
+
+
+
+  // Afficher la playlist "fav"
+
+  var favPlaylist = document.getElementById('favPlaylist');
 // Parcourir la liste fav_songs et créer les éléments correspondants
 fav_songs.forEach(function(songId, index) {
     var song = songs[songId - 1];
@@ -346,6 +394,8 @@ let poster_master_play = document.getElementById('poster_master_play');
 let title = document.getElementById('title');
 let fav_icon = document.getElementById('heart');
 
+playlist_playing = 'new';
+
 document.addEventListener('click', function(event) {
     if (event.target.classList.contains('playlistPlay')) {
 
@@ -370,6 +420,7 @@ document.addEventListener('click', function(event) {
                 });
                 element.setAttribute('name', 'pause-circle');
                 music.play();
+                music.volume = 0.5;
                 let song_title = songs.filter((ele) => {
                     return ele.id == index;
                 });
@@ -387,6 +438,25 @@ document.addEventListener('click', function(event) {
                         a.style.background = '#1e1e3f';
                     }
                 });
+                
+                // checker sur quelle playlist on joue
+                var playlistElement = event.target.closest('ul');
+                if (playlistElement) {
+                    if (playlistElement.classList.contains('fav-playlist')) {
+                        console.log('The element has the class fav-playlist');
+                        playlist_playing = 'fav';
+                      }
+                      
+                      if (playlistElement.classList.contains('new-playlist')) {
+                        console.log('The element has the class new-playlist');
+                        playlist_playing = 'new';
+                      }
+                      
+                      if (playlistElement.classList.contains('all-playlist')) {
+                        console.log('The element has the class all-playlist');
+                        playlist_playing = 'all';
+                      }
+                }
             } else {
                 music.play();
                 Array.from(document.getElementsByClassName('playlistPlay')).forEach((a) => {
@@ -411,6 +481,8 @@ document.addEventListener('click', function(event) {
         });
     }
 });
+
+
   
 
 let currentStartTime = document.getElementById('currentStart');
@@ -504,9 +576,27 @@ let back = document.getElementById('back');
 let next = document.getElementById('next');
 
 back.addEventListener('click',()=>{
-    index = index - 1;
-    if (index < 1) {
-        index = song_size;
+    var playlist_size;
+    switch (playlist_playing) {
+        case 'all':
+            playlist_size = song_size;
+            index = index - 1;
+            playlist = songs;
+            break;
+        case 'fav':
+            playlist_size = fav_songs.length;
+            index = fav_songs[fav_songs.indexOf(index) - 1];
+            playlist = fav_songs;
+            break;
+        case 'new':
+            playlist_size = new_songs.length;
+            index = new_songs[new_songs.indexOf(index) - 1];
+            playlist = new_songs;
+            break;
+    }
+
+    if (playlist.indexOf(index) < 1 || index == undefined) {
+        index = playlist[playlist_size - 1];
     }
     music.src = `../../Songs/${index}.mp3`;
     poster_master_play.src = `../../images/image${index}.jpg`;
@@ -535,9 +625,31 @@ back.addEventListener('click',()=>{
 })
 
 next.addEventListener('click',()=>{
-    index = index + 1;
-    if (index > song_size) {
-        index = 1;
+    var playlist;
+    var playlist_size;
+    switch (playlist_playing) {
+        case 'all':
+            playlist_size = song_size;
+            index = index + 1;
+            playlist = songs;
+            break;
+        case 'fav':
+            playlist_size = fav_songs.length;
+            index = fav_songs[fav_songs.indexOf(index) + 1];
+            playlist = fav_songs;
+            break;
+        case 'new':
+            playlist_size = new_songs.length;
+            console.log(index);
+            index = new_songs[new_songs.indexOf(index) + 1];
+            console.log(index);
+            playlist = new_songs;
+            break;
+    }
+    
+    console.log(index);
+    if (playlist.indexOf(index) > playlist_size-1 || index == undefined) {
+        index = playlist[0];
     }
     music.src = `../../Songs/${index}.mp3`;
     poster_master_play.src = `../../images/image${index}.jpg`;

@@ -3,6 +3,7 @@ package Pack;
 import java.io.IOException;
 import java.sql.*;
 import java.util.List;
+import java.util.ArrayList;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -14,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class Controleur
  */
-@WebServlet("/Controleur")
+@WebServlet("/ControleurLogin")
 public class ControleurLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
@@ -44,8 +45,6 @@ public class ControleurLogin extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
 		
-		doGet(request, response);
-		
 		// Traitement des opérations
 		try {
 
@@ -61,36 +60,53 @@ public class ControleurLogin extends HttpServlet {
 				if (isUser) {
 					request.setAttribute("isUser", true);
 					request.setAttribute("user", login);
+					//response.sendRedirect("Pages/login/login.html");
 				} 
 				// Cas où l'utilisateur n'existe pas encore
 				else {
 					request.setAttribute("isUser", false);
 					facade.addUser(login, password);
-				}
-
-				response.sendRedirect("Pages/login/login.html");
+					response.sendRedirect("ControleurLogin");
+				}			
 			}
+			
 			// LOGIN
 			else if (op.equals("Login")) {
 				String login = request.getParameter("login");
 				String password = request.getParameter("password");
 				boolean isUser = facade.isUser(login, password);
-
 				// Cas où l'utilisateur existe déjà 
 				// attributes : isUser = true, favorites = liste des musiques favorites
 				if (isUser) {
 					request.setAttribute("isUser", true); 
 					request.setAttribute("user", login);
+
+					// Ajout des informations de l'utilisateur dans la session
+					// Favoris et achats
 					List<Favorite> favs = facade.getFavs(login);
-					request.setAttribute("favorites", favs);
+					List<Integer> favorites = new ArrayList<Integer>();
+					for (Favorite f : favs) {
+						favorites.add(f.getMusic().getId());
+					}
+					request.setAttribute("favorites", favorites);
+
+					List<Purchase> purchs = facade.getPurchases(login);
+					List<Integer> purchases = new ArrayList<Integer>();
+					for (Purchase p : purchs) {
+						purchases.add(p.getMusic().getId());
+					}
+					request.setAttribute("purchases", purchases);
+
+					// On passe dans la page d'accueil
+					response.sendRedirect("Controleur");
 				} 
 				// Cas où l'utilisateur n'existe pas encore
 				else {
 					request.setAttribute("isUser", false);
 					request.setAttribute("favorites", null);
-				}
-
-				response.sendRedirect("Pages/home/home.html");
+					request.setAttribute("purchases", null);
+					response.sendRedirect("ControleurLogin");
+				}	
 			}
 
 			
