@@ -240,15 +240,10 @@ const songs = [
 
 let song_size = songs.length;
 
-// Récupérer la liste des favoris actuels 
- let fav_songs = [];
- let fav_songs_string = request.getAttribute("favorites");
- if (fav_songs_string != null) {
-     for (var i = 0; i < fav_songs_string.length; i++) {
-         fav_songs.push(parseInt(fav_songs_string[i]));
-     }
-}
-
+// créer la liste des id de la playlist fav
+let fav_songs = [
+    3,6
+];
 
 // créer la liste des id de la playlist new
 var new_songs = [];
@@ -419,7 +414,6 @@ document.addEventListener('click', function(event) {
                 });
                 element.setAttribute('name', 'pause-circle');
                 music.play();
-                music.volume = 0.5;
                 let song_title = songs.filter((ele) => {
                     return ele.id == index;
                 });
