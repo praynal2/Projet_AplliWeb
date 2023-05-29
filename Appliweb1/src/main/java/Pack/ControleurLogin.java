@@ -60,13 +60,13 @@ public class ControleurLogin extends HttpServlet {
 				if (isUser) {
 					request.setAttribute("isUser", true);
 					request.setAttribute("user", login);
-					//response.sendRedirect("Pages/login/login.html");
+					response.sendRedirect("Pages/login/login.html");
 				} 
 				// Cas où l'utilisateur n'existe pas encore
 				else {
 					request.setAttribute("isUser", false);
 					facade.addUser(login, password);
-					response.sendRedirect("ControleurLogin");
+					response.sendRedirect("Pages/login/login.html");
 				}			
 			}
 			
