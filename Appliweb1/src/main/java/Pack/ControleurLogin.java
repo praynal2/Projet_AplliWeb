@@ -92,6 +92,10 @@ public class ControleurLogin extends HttpServlet {
 					}
 					request.setAttribute("favorites", favorites);
 
+					// Envoi de la liste des favoris au front
+					RequestDispatcher dispatcher = request.getRequestDispatcher("../../webapp/Pages/login/login.html");
+					dispatcher.forward(request, response);
+
 					List<Purchase> purchs = facade.getPurchases(login);
 					List<Integer> purchases = new ArrayList<Integer>();
 					for (Purchase p : purchs) {
