@@ -1,39 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-                            
+                                
     
     
     
     
     
-    <wb-module deploy-name="Appliweb">
-                                                        
+    
+    <wb-module deploy-name="Appliweb1">
+                                                                
+        
         
         
         
         
         
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
-                                        
-        
-        
-        
         <wb-resource deploy-path="/" source-path="/webapp"/>
-                                                        
+                                                                
         
         
         
         
         
-        <property name="java-output-path" value="/Appliweb/build/classes"/>
-        <property name="context-root" value="Appliweb"/>
-                                                    
+        
+        <property name="java-output-path" value="/Appliweb1/build/classes"/>
+        <property name="context-root" value="Appliweb1"/>
+                                                            
+    
     
     
     
     
     
     </wb-module>
-                        
+                            
+
 
 
 
