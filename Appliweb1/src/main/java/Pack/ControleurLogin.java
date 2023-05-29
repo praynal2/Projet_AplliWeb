@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class Controleur
  */
-@WebServlet("/Controleur")
+@WebServlet("/ControleurLogin")
 public class ControleurLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
@@ -73,7 +73,6 @@ public class ControleurLogin extends HttpServlet {
 				String login = request.getParameter("login");
 				String password = request.getParameter("password");
 				boolean isUser = facade.isUser(login, password);
-
 				// Cas où l'utilisateur existe déjà 
 				// attributes : isUser = true, favorites = liste des musiques favorites
 				if (isUser) {
@@ -82,15 +81,14 @@ public class ControleurLogin extends HttpServlet {
 					List<Favorite> favs = facade.getFavs(login);
 					request.setAttribute("favorites", favs);
 					// On passe dans la page d'accueil
-					response.sendRedirect("ControleurFavoris");
+					response.sendRedirect("Controleur");
 				} 
 				// Cas où l'utilisateur n'existe pas encore
 				else {
 					request.setAttribute("isUser", false);
 					request.setAttribute("favorites", null);
-				}
-
-				
+					response.sendRedirect("Controleur");
+				}	
 			}
 
 			

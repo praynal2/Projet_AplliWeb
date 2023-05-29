@@ -43,7 +43,7 @@
 
       <div class="form-box register">
         <h2>Registration</h2>
-        <form action ="register">
+        <form action = "/Appliweb/Controleur" method ="post">
           <div class="input-box">
             <span class="icon"><ion-icon name="person"></ion-icon></span>
             <input type="text" name="login" required>
@@ -57,7 +57,7 @@
           <div class="agree-condition">
             <label><input type="checkbox" required> I agree to the terms and conditions</label>
           </div>
-          <button type="submit" class="btnLogin">Register</button>
+          <button type="submit" name = "op" value = "Register" class="btnLogin">Register</button>
           <div class="login-register">
             <p> Already have an account? <a href="#" class = "login-link">Login</a></p>
           </div>

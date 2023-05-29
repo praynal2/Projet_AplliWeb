@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/ControleurFavoris")
-public class ControleurFavoris extends HttpServlet {
+@WebServlet("/Controleur")
+public class Controleur extends HttpServlet {
     
     @EJB
     private Facade_Itf facade = new Facade();
@@ -21,7 +21,7 @@ public class ControleurFavoris extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ControleurFavoris() {
+    public Controleur() {
         super();
         // TODO Auto-generated constructor stub
     }
