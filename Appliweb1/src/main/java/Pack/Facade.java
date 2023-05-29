@@ -85,11 +85,54 @@ public class Facade implements Facade_Itf {
 		return list;
 	}
 
+
+	// Initialiser la BD en ajoutant toutes les musiques 
+	// public void initBD() {
+	// 	File dir = new File("webapp/Songs");
+	// 	File[] liste = dir.listFiles();
+    //     for(File item : liste){
+	// 		String name = item.getName();
+	// 		String style = name.substring(0, name.indexOf("-"));
+	// 		String url = "Songs/" + name;
+	// 		addMusic(name, style, url);
+	// 	}
+	// }
+
+	// Utilisé pour ajouter une musique
+	public void addMusic(String name, Style style, String url) {
+		Music music = new Music();
+		music.setName(name);
+		music.setStyle(style);
+		music.setUrl(url);
+		em.persist(music);
+	}
+
 	// Utilisé pour récupérer les musiques favorites d'un utilisateur
 	public List<Favorite> getFavs(String login) {
 		Client user = em.find(Client.class, login);
 		List<Favorite> list = user.getFavorites();
 		return list;
+	}
+
+	// Utilisé pour modifier les musiques favorites d'un utilisateur
+	public void setFavs(String login, List<Integer> idMusic) {
+		Client user = em.find(Client.class, login);
+		List<Favorite> list = user.getFavorites();
+		for (Favorite fav : list) {
+			int id = fav.getMusic().getId();
+			if (!idMusic.contains(id)) {
+				em.remove(fav);
+				list.remove(fav);
+			}
+		}
+		for (Integer id : idMusic) {
+			Music music = em.find(Music.class, id);
+			Favorite fav = new Favorite();
+			fav.setClient(user);
+			fav.setMusic(music);
+			list.add(fav);
+			em.persist(fav);
+		}
 	}
 
 	// Utilisé pour ajouter une musique favorite à un utilisateur
@@ -132,4 +175,33 @@ public class Facade implements Facade_Itf {
 		// 	}
 		// }
 	}
+
+	// Utilisé pour récupérer les achats d'un utilisateur
+	public List<Purchase> getPurchases(String login) {
+		Client user = em.find(Client.class, login);
+		List<Purchase> list = (List<Purchase>) user.getPurchases();
+		return list;
+	}
+
+	// Utilisé pour modifier les achats d'un utilisateur
+	public void setPurchases(String login, List<Integer> idMusic) {
+		Client user = em.find(Client.class, login);
+		List<Purchase> list = (List<Purchase>) user.getPurchases();
+		for (Purchase purchase : list) {
+			int id = purchase.getMusic().getId();
+			if (!idMusic.contains(id)) {
+				em.remove(purchase);
+				list.remove(purchase);
+			}
+		}
+		for (Integer id : idMusic) {
+			Music music = em.find(Music.class, id);
+			Purchase purchase = new Purchase();
+			purchase.setClient(user);
+			purchase.setMusic(music);
+			list.add(purchase);
+			em.persist(purchase);
+		}
+	}
+
 }
