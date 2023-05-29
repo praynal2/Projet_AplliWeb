@@ -59,14 +59,16 @@ public class ControleurLogin extends HttpServlet {
 				if (isUser) {
 					request.setAttribute("isUser", true);
 					request.setAttribute("user", login);
+					//response.sendRedirect("Pages/login/login.html");
 				} 
 				// Cas où l'utilisateur n'existe pas encore
 				else {
 					request.setAttribute("isUser", false);
 					facade.addUser(login, password);
+					response.sendRedirect("Controleur");
 				}
 
-				response.sendRedirect("Pages/login/login.html");
+				
 			}
 			// LOGIN
 			else if (op.equals("Login")) {
@@ -87,7 +89,7 @@ public class ControleurLogin extends HttpServlet {
 				else {
 					request.setAttribute("isUser", false);
 					request.setAttribute("favorites", null);
-					response.sendRedirect("Controleur");
+					response.sendRedirect("ControleurLogin");
 				}	
 			}
 

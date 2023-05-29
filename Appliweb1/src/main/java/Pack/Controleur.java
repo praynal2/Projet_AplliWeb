@@ -15,8 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/Controleur")
 public class Controleur extends HttpServlet {
     
-    @EJB
-    private Facade_Itf facade = new Facade();
+    private static final long serialVersionUID = 1L;
+    
+	@EJB
+    Facade_Itf facade = new Facade();
 
     /**
      * @see HttpServlet#HttpServlet()
