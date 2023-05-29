@@ -32,8 +32,11 @@ public class Controleur extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		//Enregistrement des musiques dans la BD 
+        //facade.initBD(); Eventuellement ??
+
 		response.sendRedirect("Pages/home/home.html");
+        // On récupère les favoris du client 
 	}
 
 	/**
@@ -43,19 +46,22 @@ public class Controleur extends HttpServlet {
 		
 
         try {
+
             // Utilisateur connecté
-            String user = request.getParameter("user");
-            
+            String user = request.getParameter("user");         
             // Opération à effectuer
             String op = request.getParameter("op");
 
-            if (op == "add") {
-                // On ajoute un favori
-                facade.addFav(user, Integer.parseInt(request.getParameter("idFav")));
-            } else if (op == "remove") {
-                // On supprime un favori
-                facade.delFav(user, Integer.parseInt(request.getParameter("idFav")));
-            }
+            
+            // On modifie les favoris du client lorqu'il quitte la page
+            if (op == "setClient") { 
+                // On récupère les favoris
+                List<Integer> musics = (List<Integer>) request.getAttribute("newfavs");
+                facade.setFavs(user, musics);
+                // On récupère les achats
+                List<Integer> purchases = (List<Integer>) request.getAttribute("newpurchases");
+                facade.setPurchases(user, purchases);
+            } 
 
         } catch (Exception e) {
             e.printStackTrace();

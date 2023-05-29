@@ -66,10 +66,9 @@ public class ControleurLogin extends HttpServlet {
 					request.setAttribute("isUser", false);
 					facade.addUser(login, password);
 					response.sendRedirect("ControleurLogin");
-				}
-
-				
+				}			
 			}
+			
 			// LOGIN
 			else if (op.equals("Login")) {
 				String login = request.getParameter("login");
@@ -80,8 +79,14 @@ public class ControleurLogin extends HttpServlet {
 				if (isUser) {
 					request.setAttribute("isUser", true); 
 					request.setAttribute("user", login);
+
+					// Ajout des informations de l'utilisateur dans la session
+					// Favoris et achats
 					List<Favorite> favs = facade.getFavs(login);
 					request.setAttribute("favorites", favs);
+					List<Purchase> purchases = facade.getPurchases(login);
+					request.setAttribute("purchases", purchases);
+
 					// On passe dans la page d'accueil
 					response.sendRedirect("Controleur");
 				} 
@@ -89,6 +94,7 @@ public class ControleurLogin extends HttpServlet {
 				else {
 					request.setAttribute("isUser", false);
 					request.setAttribute("favorites", null);
+					request.setAttribute("purchases", null);
 					response.sendRedirect("ControleurLogin");
 				}	
 			}
