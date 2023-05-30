@@ -240,10 +240,25 @@ const songs = [
 
 let song_size = songs.length;
 
+<<<<<<< HEAD
+// Récupérer la liste des favoris actuels 
+let fav_songs = document.getElementById("myAttribute");
+if (fav_songs == null) {
+	fav_songs = [];
+}
+
+=======
 // créer la liste des id de la playlist fav
 let fav_songs = [
     3,6
 ];
+>>>>>>> 233c3fd074d0d2f6b073adfb08672a2f3e2ff22c
+
+// créer la liste des id de la playlist fav
+/*let fav_songs = [
+    3,6
+];*/
+
 
 // créer la liste des id de la playlist new
 var new_songs = [];
