@@ -84,24 +84,31 @@ public class ControleurLogin extends HttpServlet {
 					request.setAttribute("user", login);
 
 					// Ajout des informations de l'utilisateur dans la session
-					// Favoris et achats
+					// Favoris 
 					List<Favorite> favs = facade.getFavs(login);
 					List<Integer> favorites = new ArrayList<Integer>();
 					for (Favorite f : favs) {
 						favorites.add(f.getMusic().getId());
 					}
+<<<<<<< HEAD
+					request.setAttribute("favs", favorites);
+					
+					
+					// Achats
+=======
 					request.setAttribute("favorites", favorites);
 
 					// Envoi de la liste des favoris au front
 					RequestDispatcher dispatcher = request.getRequestDispatcher("../../webapp/Pages/login/login.html");
 					dispatcher.forward(request, response);
 
+>>>>>>> 233c3fd074d0d2f6b073adfb08672a2f3e2ff22c
 					List<Purchase> purchs = facade.getPurchases(login);
 					List<Integer> purchases = new ArrayList<Integer>();
 					for (Purchase p : purchs) {
 						purchases.add(p.getMusic().getId());
 					}
-					request.setAttribute("purchases", purchases);
+					request.setAttribute("purs", purchases);
 
 					// Envoi de la liste des achats au front
 					RequestDispatcher dispatcher2 = request.getRequestDispatcher("../../webapp/Pages/login/login.html");
