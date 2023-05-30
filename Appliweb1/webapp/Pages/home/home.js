@@ -241,13 +241,16 @@ const songs = [
 let song_size = songs.length;
 
 // Récupérer la liste des favoris actuels 
- let fav_songs = [];
- let fav_songs_string = Request.getAttribute("favorites");
- if (fav_songs_string != null) {
-     for (var i = 0; i < fav_songs_string.length; i++) {
-         fav_songs.push(parseInt(fav_songs_string[i]));
-     }
+let fav_songs = document.getElementById("myAttribute");
+if (fav_songs == null) {
+	fav_songs = [];
 }
+
+
+// créer la liste des id de la playlist fav
+/*let fav_songs = [
+    3,6
+];*/
 
 
 // créer la liste des id de la playlist new
